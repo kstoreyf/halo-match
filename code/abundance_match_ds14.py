@@ -5,10 +5,11 @@ import numpy as np
 
 #from AbacusCosmos import Halos
 from AbundanceMatching import *
-from halotools.sim_manager import RockstarHlistReader, CachedHaloCatalog
+from halotools.sim_manager import CachedHaloCatalog
 
 plot_dir = '../plots/plots_2019-08-26'
-tag = '_tiny'
+#tag = '_tiny'
+tag = ''
 #LF_SCATTER_MULT = 2.5
 LF_SCATTER_MULT = 1
  
@@ -47,7 +48,6 @@ plt.savefig("{}/deconv{}.png".format(plot_dir, tag))
 simname = 'ds14b'
 version_name = 'rockstar1{}'.format(tag)
 print("Loading halos from {}".format(simname))
-#reader = RockstarHlistReader(input_fname, columns_to_keep_dict, output_fname, simname, halo_finder, redshift, version_name, Lbox, particle_mass)
 halos = CachedHaloCatalog(simname=simname, halo_finder='rockstar', version_name=version_name, redshift=0.0)
 
 print("Halos:")

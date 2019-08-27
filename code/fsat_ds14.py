@@ -3,25 +3,25 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
-from AbacusCosmos import Halos
+#from AbacusCosmos import Halos
 from AbundanceMatching import *
-
+from halotools.sim_manager import CachedHaloCatalog
 
 plot_dir = '../plots/plots_2019-08-26'
 tag = ''
+#tag = '_tiny'
 
 #Load matched catalog
 print("Loading matched catalog")
-mstellar = np.loadtxt("catalog_mstellar.dat")
+mstellar = np.loadtxt("../catalogs/catalog_mstellar{}.dat".format(tag))
 print mstellar
 
 #Load halos 
-halo_dir = '/mount/sirocco1/ksf293/halo_files_z0'
-print("Loading halos from {}".format(halo_dir))
-cat = Halos.make_catalog_from_dir(dirname=halo_dir, halo_type='Rockstar',
-      load_subsamples=False, load_pids=False)
-halos = cat.halos
-print("Loaded {} halos".format(len(halos)))
+simname = 'ds14b'
+version_name = 'rockstar1{}'.format(tag)
+print("Loading halos from {}".format(simname))
+halos = CachedHaloCatalog(simname=simname, halo_finder='rockstar', version_name=version_name, redshift=0.0)
+print("Loaded {} halos".format(len(halos.halo_table['halo_id'])))
 
 nbins = 12
 mstellar_notnan = mstellar[~np.isnan(mstellar)]
@@ -39,7 +39,7 @@ for i in range(len(mstellar)):
     bin_idx = bin_idxs[i]-1
     # if nan, returns nbins
     if bin_idx < nbins:
-        if halos['parent_id'][i]==-1:
+        if halos.halo_table['halo_parent_id'][i]==-1:
             ncentrals[bin_idx] += 1
         else:
             nsats[bin_idx] += 1
@@ -52,11 +52,14 @@ plt.xlabel(r'$M_{\mathrm{stellar}}$')
 plt.ylabel(r'$f_{\mathrm{sat}}$')
 plt.savefig('{}/fsat_mstellar{}.png'.format(plot_dir, tag))
 
-sats = mstellar[halos['parent_id'] != -1]
-centrals = mstellar[halos['parent_id'] == -1]
+np.save("../results/fsat_{}{}.npy".format(simname, tag), np.array([bincenters, fsat]))
+
+sats = mstellar[halos.halo_table['halo_parent_id'] != -1]
+centrals = mstellar[halos.halo_table['halo_parent_id'] == -1]
 print len(sats), len(sats[~np.isnan(sats)])
 print len(centrals), len(centrals[~np.isnan(centrals)])
 
+plt.figure()
 n, bins, patches = plt.hist(centrals, bins=bins, histtype='step', label='centrals')
 n, bins, patches = plt.hist(sats, bins=bins, histtype='step', label='satellites')
 n, bins, patches = plt.hist(mstellar, bins=bins, histtype='step', label='all')
