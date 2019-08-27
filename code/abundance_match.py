@@ -7,7 +7,9 @@ from AbacusCosmos import Halos
 from AbundanceMatching import *
 
 
-plot_dir = '../plots/plots_2019-08-22'
+plot_dir = '../plots/plots_2019-08-27'
+tag = '_abacus'
+
 #LF_SCATTER_MULT = 2.5
 LF_SCATTER_MULT = 1
  
@@ -15,7 +17,7 @@ smf_label = r'$M_{\mathrm{stellar}}$'
 halo_label = r'$v_{\mathrm{max}}$'
 n_label = 'n'
 
-smf = np.loadtxt("smf_sdss_z0.dat")
+smf = np.loadtxt("../data/smf_sdss_z0.dat")
 smf_logM = smf[:,0]
 smf_n = smf[:,1]
 #lf = np.loadtxt("lf_test.dat")
@@ -36,7 +38,7 @@ scatter = 0.15
 remainder = af.deconvolute(scatter, 20)
 x, nd = af.get_number_density_table()
 plt.plot(x, remainder/nd);
-plt.savefig("../plots/deconv.png")
+plt.savefig("{}/deconv{}.png".format(plot_dir, tag))
 
 #Load halos 
 halo_dir = '/mount/sirocco1/ksf293/halo_files_z0'
@@ -60,7 +62,7 @@ plt.semilogy(x, af(x), label='abundance function')
 plt.legend()
 plt.xlabel(smf_label)
 plt.ylabel(n_label)
-plt.savefig("../plots/abundance_function.png")
+plt.savefig("{}/abundance_function{}.png".format(plot_dir, tag))
 
 #get number densities of the halo catalog
 box_size = 500 #Mpc/h #got from header file, http://nbody.rc.fas.harvard.edu/public/S2016/schneider_spline_rockstar_halos/z0.000/header
@@ -90,8 +92,7 @@ plt.figure()
 plt.loglog(vmaxs, nd_halos, ls='None', marker='.')
 plt.xlabel(halo_label)
 plt.ylabel(n_label)
-plt.savefig("../plots/halo_function.png")
-
+plt.savefig("{}/halo_function{}.png".format(plot_dir, tag))
 
 #interp function
 plt.figure()
@@ -99,7 +100,7 @@ x, nd = af.get_number_density_table()
 plt.semilogy(x, nd, ls='None', marker='.')
 plt.xlabel(smf_label)
 plt.ylabel(n_label)
-plt.savefig("../plots/interp.png")
+plt.savefig("{}/interp{}.png".format(plot_dir, tag))
 
 print len(nd_halos)
 print max(nd_halos)
@@ -108,7 +109,7 @@ print min(nd_halos)
 catalog_sm = af.match(nd_halos)
 catalog_sm_scatter = af.match(nd_halos, scatter)
 
-f = open('catalog_mstellar.dat', 'w')
+f = open('../catalogs/catalog_mstellar{}.dat'.format(tag), 'w')
 np.savetxt(f, catalog_sm)
 
 print len(catalog_sm)
@@ -119,26 +120,26 @@ plt.figure()
 plt.semilogx(vmaxs, catalog_sm, ls='None', marker='.')
 plt.xlabel(halo_label)
 plt.ylabel(smf_label)
-plt.savefig("../plots/abundance_matching.png")
+plt.savefig("{}/abundance_matching{}.png".format(plot_dir, tag))
 
 plt.figure()
 plt.semilogx(vmaxs, catalog_sm_scatter, ls='None', marker='.', alpha=0.1)
 plt.xlabel(halo_label)
 plt.ylabel(smf_label)
-plt.savefig("../plots/abundance_matching_scatter.png")
+plt.savefig("{}/abundance_matching_scatter{}.png".format(plot_dir, tag))
 
 plt.figure()
 plt.semilogy(catalog_sm, vmaxs, ls='None', marker='.')
 plt.ylabel(halo_label)
 plt.xlabel(smf_label)
-plt.savefig("../plots/abundance_matching_inv.png")
+plt.savefig("{}/abundance_matching_inv{}.png".format(plot_dir, tag))
 
 catalog_sm_binned = af.match(nd_halos_binned)
 plt.figure()
 plt.semilogx(bins, catalog_sm_binned, ls='None', marker='.')
 plt.xlabel(halo_label)
 plt.ylabel(smf_label)
-plt.savefig("../plots/abundance_matching_binned.png")
+plt.savefig("{}/abundance_matching_binned{}.png".format(plot_dir, tag))
 
 #do abundance matching with some scatter
 # don't think i need to multiply scatter by LF_SCATTER_MULT bc smf not lf??
@@ -150,4 +151,5 @@ plt.hist(catalog_sm_notnan, bins=50, histtype='step')
 plt.xlabel(smf_label+' matched')
 plt.ylabel('count')
 plt.yscale('log')
-plt.savefig("../plots/sm_catalog_matched.png")
+plt.savefig("{}/sm_catalog_matched{}.png".format(plot_dir, tag))
+

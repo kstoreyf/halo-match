@@ -7,12 +7,12 @@ from AbacusCosmos import Halos
 from AbundanceMatching import *
 
 
-plot_dir = '../plots/plots_2019-08-26'
-tag = ''
+plot_dir = '../plots/plots_2019-08-27'
+tag = '_abacus'
 
 #Load matched catalog
 print("Loading matched catalog")
-mstellar = np.loadtxt("catalog_mstellar.dat")
+mstellar = np.loadtxt("../catalogs/catalog_mstellar_abacus.dat")
 print mstellar
 
 #Load halos 
@@ -52,11 +52,14 @@ plt.xlabel(r'$M_{\mathrm{stellar}}$')
 plt.ylabel(r'$f_{\mathrm{sat}}$')
 plt.savefig('{}/fsat_mstellar{}.png'.format(plot_dir, tag))
 
+np.save("../results/fsat{}.npy".format(tag), np.array([bincenters, fsat]))
+
 sats = mstellar[halos['parent_id'] != -1]
 centrals = mstellar[halos['parent_id'] == -1]
 print len(sats), len(sats[~np.isnan(sats)])
 print len(centrals), len(centrals[~np.isnan(centrals)])
 
+plt.figure()
 n, bins, patches = plt.hist(centrals, bins=bins, histtype='step', label='centrals')
 n, bins, patches = plt.hist(sats, bins=bins, histtype='step', label='satellites')
 n, bins, patches = plt.hist(mstellar, bins=bins, histtype='step', label='all')
