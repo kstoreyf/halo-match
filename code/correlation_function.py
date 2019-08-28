@@ -4,8 +4,8 @@ from Corrfunc.theory.xi import xi
 import utils
 
 
-tag = '_abacus_small_rbig'
-halos, arrs = utils.load_halos(tag, cols=['x','y','z'], subsample=1000)
+tag = '_ds14b_log'
+halos, arrs = utils.load_halos(tag, cols=['x','y','z'])
 X, Y, Z = arrs
 print("Got halo properties")
 
@@ -17,7 +17,9 @@ else:
     raise ValueError
 nthreads = 24
 nbins = 15
-bins = np.linspace(40.0, 150.0, nbins + 1) 
+bins = np.logspace(np.log10(0.01), np.log10(10.0), nbins + 1) #log
+#bins = np.linspace(0.1, 10.0, nbins + 1) #regular
+#bins = np.linspace(40.0, 150.0, nbins + 1) #rbig
 
 print("Running corrfunc")
 xi_counts = xi(boxsize, nthreads, bins, X, Y, Z)
