@@ -5,7 +5,8 @@ from Corrfunc.theory.wp import wp
 import utils
 
 
-tag = '_abacus_mstellar_'
+tag = '_abacus'
+savetag = tag+'_mstellar_log'
 mode = 'wp'
 halos, arrs = utils.load_halos(tag, cols=['x','y','z'])
 X, Y, Z = arrs
@@ -13,7 +14,7 @@ print("Got halo properties")
 
 #Load matched catalog
 print("Loading matched catalog")
-mstellar = np.loadtxt("../catalogs/catalog_mstellar_abacus.dat")
+mstellar = np.loadtxt("../catalogs/catalog_mstellar{}.dat".format(tag))
 print(len(mstellar))
 
 X = X[~np.isnan(mstellar)]
@@ -28,7 +29,7 @@ else:
     raise ValueError
 nthreads = 24
 nbins = 15
-bins = np.logspace(np.log10(0.1), np.log10(10.0), nbins + 1) #log
+bins = np.logspace(np.log10(0.01), np.log10(10.0), nbins + 1) #log
 #bins = np.linspace(0.1, 10.0, nbins + 1) #regular
 #bins = np.linspace(40.0, 150.0, nbins + 1) #rbig
 
