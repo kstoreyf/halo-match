@@ -3,3 +3,4 @@ hlist_header.txt
 *.list
 catalogs/
 *.sw*
+*.pyc
