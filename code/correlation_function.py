@@ -9,7 +9,12 @@ halos, arrs = utils.load_halos(tag, cols=['x','y','z'], subsample=1000)
 X, Y, Z = arrs
 print("Got halo properties")
 
-boxsize = 500 #Mpc/h
+if 'abacus' in tag:
+    boxsize = 500 #Mpc/h
+elif 'ds14b' in tag:
+    boxsize = 1000 #Mpc/h
+else:
+    raise ValueError
 nthreads = 24
 nbins = 15
 bins = np.linspace(40.0, 150.0, nbins + 1) 
