@@ -8,7 +8,7 @@ import utils
 plot_dir = '../plots/plots_2019-08-28'
 #tag = '_tiny'
 #tag = '_ds14b'
-tag = '_abacus_subs'
+tag = '_ds14b_subs'
 
 halo_label = r'$v_{\mathrm{max}}$'
 n_label = 'n'
