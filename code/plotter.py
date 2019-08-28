@@ -6,33 +6,35 @@ import numpy as np
 
 def main():
 
-    plot_dir = '../plots/plots_2019-08-27'
-    savetag = '_abacus_ds14b'
+    plot_dir = '../plots/plots_2019-08-28'
+    savetag = '_abacus_ds14b_log'
     savefsat_fn = '{}/fsat_mstellar{}.png'.format(plot_dir, savetag)
     savehist_fn = '{}/hist_vmax{}.png'.format(plot_dir, savetag)    
     savexi_fn = '{}/xi{}.png'.format(plot_dir, savetag)
     
-    tags = ['_abacus', '_ds14b']
+    restag = '_log'
+    tags = ['_abacus{}'.format(restag), '_ds14b{}'.format(restag)]
     labels = ['Abacus', 'ds14b']
     #tags = ['_ds14b']
     #labels = ['ds14b']
-    #tags = ['_abacus']
+    #tags = ['_abacus_log']
     #labels = ['Abacus']
-    ms = []
-    fs = []
-    for tag in tags:
-        fsat_fn = '../results/fsat{}.npy'.format(tag)
-        m, f = np.load(fsat_fn)
-        ms.append(m)
-        fs.append(f)
+    
+    #ms = []
+    #fs = []
+    #for tag in tags:
+    #    fsat_fn = '../results/fsat{}.npy'.format(tag)
+    #    m, f = np.load(fsat_fn)
+    #    ms.append(m)
+    #    fs.append(f)
 
-    bins = []
-    ns = []
-    for tag in tags:
-        hist_fn = '../results/hist_vmax{}.npy'.format(tag)
-        b, n = np.load(hist_fn)
-        bins.append(b)
-        ns.append(n)
+    #bins = []
+    #ns = []
+    #for tag in tags:
+    #    hist_fn = '../results/hist_vmax{}.npy'.format(tag)
+    #    b, n = np.load(hist_fn)
+    #    bins.append(b)
+    #    ns.append(n)
 
     rbins = []
     xis = []
@@ -104,6 +106,10 @@ def plot_xi(bins, xis, labels, save_fn):
     #plt.yscale('log')
     plt.xlabel(r'$r$ (Mpc/h)')
     plt.ylabel(r'$\xi(r)$')
+    if 'log' in save_fn:
+        plt.xscale('log')
+        plt.yscale('log')
+    
     plt.legend()
 
     plt.savefig(save_fn)
