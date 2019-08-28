@@ -4,3 +4,5 @@ hlist_header.txt
 catalogs/
 *.sw*
 *.pyc
+logs/
+hello.py

@@ -12,12 +12,12 @@ def main():
     savehist_fn = '{}/hist_vmax{}.png'.format(plot_dir, savetag)    
     savexi_fn = '{}/xi{}.png'.format(plot_dir, savetag)
     
-    #tags = ['_abacus', '_ds14b']
-    #labels = ['Abacus', 'ds14b']
+    tags = ['_abacus', '_ds14b']
+    labels = ['Abacus', 'ds14b']
     #tags = ['_ds14b']
     #labels = ['ds14b']
-    tags = ['_abacus']
-    labels = ['Abacus']
+    #tags = ['_abacus']
+    #labels = ['Abacus']
     ms = []
     fs = []
     for tag in tags:
@@ -99,10 +99,10 @@ def plot_xi(bins, xis, labels, save_fn):
         xi = xis[i]
         print(b_cent)
         print(xi)
-        plt.scatter(b_cent, xi, label=labels[i], marker=markers[i], s=10)
+        plt.scatter(b_cent, xi, label=labels[i], marker=markers[i])
 
     #plt.yscale('log')
-    plt.xlabel(r'$r ({\mathrm{Mpc/h}})$')
+    plt.xlabel(r'$r$ (Mpc/h)')
     plt.ylabel(r'$\xi(r)$')
     plt.legend()
 
