@@ -6,15 +6,18 @@ import numpy as np
 
 def main():
 
-    plot_dir = '../plots/plots_2019-08-28'
-    savetag = '_abacus_ds14b_mstellar_log'
+    plot_dir = '../plots/plots_2019-08-29'
+    #restag = '_mstellar_log'
+    #savetag = '_abacus_ds14b'+restag
+    restag = '_log'
+    savetag = '_abacus_ds14b_log'
+    savefsub_fn = '{}/fsub_mstellar{}.png'.format(plot_dir, savetag)
     savefsat_fn = '{}/fsat_mstellar{}.png'.format(plot_dir, savetag)
     savehist_fn = '{}/hist_vmax{}.png'.format(plot_dir, savetag)
-    mode = 'wp'    
+    mode = 'xi'    
     savecf_fn = '{}/{}{}.png'.format(plot_dir, mode, savetag)
     
-    restag = '_mstellar_log'
-    tags = ['_abacus{}'.format(restag), '_ds14b{}'.format(restag)]
+    tags = ['_abacus{}'.format(restag)]#, '_ds14b{}'.format(restag)]
     labels = ['Abacus', 'ds14b']
     #tags = ['_ds14b']
     #labels = ['ds14b']
@@ -42,14 +45,22 @@ def main():
     for tag in tags:
         cf_fn = '../results/{}{}.npy'.format(mode, tag)
         rb, res = np.load(cf_fn)
-        print(res)
         rbins.append(rb)
         cf = [r[3] for r in res]
         cfs.append(cf)
     
+    vs = []
+    fsubs = []
+    for tag in tags:
+        fsub_fn = '../results/fsub_vmax{}.npy'.format(tag)
+        v, fsub = np.load(fsub_fn)
+        vs.append(v)
+        fsubs.append(fsub) 
+
     #plot_fsat(ms, fs, labels, savefsat_fn)
     #plot_hist(bins, ns, labels, savehist_fn)
-    plot_cf(rbins, cfs, labels, savecf_fn)
+    #plot_cf(rbins, cfs, labels, savecf_fn)
+    plot_fsub(vs, fsubs, labels, savefsub_fn)
 
 def plot_fsat(ms, fs, labels, save_fn):
     markers = ['o', 'v']
@@ -96,6 +107,11 @@ def plot_cf(bins, cfs, labels, save_fn):
         bins = [bins]
         cfs = [cfs]
 
+    if 'mstellar' in save_fn:
+        title = r'matched $M_{\mathrm{stellar}}$'
+    else:
+        title = r'all halos'
+
     plt.figure()
     for i in range(len(bins)):
         b = bins[i]
@@ -116,9 +132,33 @@ def plot_cf(bins, cfs, labels, save_fn):
         plt.yscale('log')
     
     plt.legend()
+    plt.title(title, fontsize=14)
+    
+    plt.savefig(save_fn)
+    print("Saved to {}".format(save_fn))
+
+def plot_fsub(vs, fs, labels, save_fn):
+    markers = ['o', 'v']
+    if type(vs[0]) is float:
+        vs = [vs]
+        fs = [fs]
+
+    plt.figure()
+    for i in range(len(vs)):
+        v = vs[i]
+        f = fs[i]
+        v_cent = 0.5*(v[:-1]+v[1:])
+        plt.scatter(v_cent, f, label=labels[i], marker=markers[i])
+
+    if 'log' in save_fn:
+        plt.xscale('log')
+
+    plt.xlabel(r'$v_{\mathrm{max}}$')
+    plt.ylabel(r'$f_{\mathrm{sub}}$')
+    plt.legend()
 
     plt.savefig(save_fn)
-
+    print("Saved to {}".format(save_fn))
 
 if __name__=='__main__':
     main()

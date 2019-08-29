@@ -6,3 +6,4 @@ catalogs/
 *.pyc
 logs/
 hello.py
+*.o*
