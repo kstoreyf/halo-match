@@ -7,9 +7,9 @@ import numpy as np
 from AbundanceMatching import *
 from halotools.sim_manager import CachedHaloCatalog
 
-plot_dir = '../plots/plots_2019-08-26'
+plot_dir = '../plots/plots_2019-08-28'
 #tag = '_tiny'
-tag = ''
+tag = '_ds14b'
 #LF_SCATTER_MULT = 2.5
 LF_SCATTER_MULT = 1
  
@@ -46,7 +46,8 @@ plt.savefig("{}/deconv{}.png".format(plot_dir, tag))
 #halo_fn = '{}/hlists/hlist_1.00000.list'.format(sim_fn)
 #cols = {'halo_id': (1, 'i8'), 'halo_mvir': (45, 'f4'), 'halo_x': (17, 'f4'), 'halo_y': (18, 'f4'), 'halo_z': (19, 'f4'), 'halo_rvir': (36, 'f4')}
 simname = 'ds14b'
-version_name = 'rockstar1{}'.format(tag)
+versiontag = ''
+version_name = 'rockstar1{}'.format(versiontag)
 print("Loading halos from {}".format(simname))
 halos = CachedHaloCatalog(simname=simname, halo_finder='rockstar', version_name=version_name, redshift=0.0)
 

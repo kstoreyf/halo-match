@@ -7,8 +7,8 @@ import utils
 
 plot_dir = '../plots/plots_2019-08-28'
 #tag = '_tiny'
-#tag = '_ds14b'
-tag = '_ds14b_subs'
+tag = '_ds14b'
+#tag = '_ds14b_subs'
 
 halo_label = r'$v_{\mathrm{max}}$'
 n_label = 'n'
@@ -31,3 +31,9 @@ plt.legend()
 plt.savefig("{}/hist_vmax{}.png".format(plot_dir, tag))
 
 np.save('../results/hist_vmax{}.npy'.format(tag), np.array([bins, n, ns, nh]))
+
+ns, bins, patches = plt.hist(subs, bins=15, histtype='step', label='subhalos')
+nh, bins, patches = plt.hist(hosts, bins=bins, histtype='step', label='hosts')
+f_sub = ns/nh
+
+np.save('../results/fsub_vmax{}.npy'.format(tag), np.array([bins, f_sub]))

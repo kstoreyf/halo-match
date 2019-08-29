@@ -13,14 +13,16 @@ X, Y, Z = arrs
 print("Got halo properties")
 
 #Load matched catalog
-print("Loading matched catalog")
-mstellar = np.loadtxt("../catalogs/catalog_mstellar{}.dat".format(tag))
-print(len(mstellar))
+if 'mstellar' in savetag:
+    print("Loading matched catalog")
+    mstellar = np.loadtxt("../catalogs/catalog_mstellar{}.dat".format(tag))
+    print(len(mstellar))
 
-X = X[~np.isnan(mstellar)]
-Y = Y[~np.isnan(mstellar)]
-Z = Z[~np.isnan(mstellar)]
-print(len(X))
+    X = X[~np.isnan(mstellar)]
+    Y = Y[~np.isnan(mstellar)]
+    Z = Z[~np.isnan(mstellar)]
+    print(len(X))
+
 if 'abacus' in tag:
     boxsize = 500 #Mpc/h
 elif 'ds14b' in tag:
