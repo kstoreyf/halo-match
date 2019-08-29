@@ -5,7 +5,7 @@ from Corrfunc.theory.wp import wp
 import utils
 
 
-tag = '_ds14b'
+tag = '_abacus'
 savetag = tag+'_log'
 mode = 'wp'
 halos, arrs = utils.load_halos(tag, cols=['x','y','z'])
@@ -32,6 +32,7 @@ else:
 nthreads = 24
 nbins = 15
 bins = np.logspace(np.log10(0.01), np.log10(10.0), nbins + 1) #log
+print(bins)
 #bins = np.linspace(0.1, 10.0, nbins + 1) #regular
 #bins = np.linspace(40.0, 150.0, nbins + 1) #rbig
 
