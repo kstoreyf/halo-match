@@ -17,7 +17,7 @@ def main():
     mode = 'xi'    
     savecf_fn = '{}/{}{}.png'.format(plot_dir, mode, savetag)
     
-    tags = ['_abacus{}'.format(restag)]#, '_ds14b{}'.format(restag)]
+    tags = ['_abacus{}'.format(restag), '_ds14b{}'.format(restag)]
     labels = ['Abacus', 'ds14b']
     #tags = ['_ds14b']
     #labels = ['ds14b']
